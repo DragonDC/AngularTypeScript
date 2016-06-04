@@ -1,36 +1,32 @@
 import { Component } from '@angular/core';
-export class Hero{
-	id: number;
-	name: string;
-}
+import { Book } from './book';
+import { BookDetailComponent } from './book-detail.component';
+
 @Component({
   selector: 'my-app',
   template: `
 			<h1>{{title}}</h1>
-			<h2>My Heroes</h2>
-			<ul class="heroes">
-			  <li *ngFor="let hero of heroes" (click)="onSelect(hero)">
-				<span class="badge">{{hero.id}}</span> {{hero.name}}
+			<h2>My Books</h2>
+			<ul class="bookes">
+			  <li *ngFor="let book of bookes" [class.selected]="book === selectedbook"
+			  (click)="onSelect(book)">
+				<span class="badge">{{book.id}}</span> {{book.name}}
 			  </li>
 			</ul>
-			<h2>{{hero.name}} details!</h2>
-			<div><label>id: </label>{{hero.id}}</div>
-			<div>
-				<label>name: </label>
-				<input [(ngModel)]="hero.name" placeholder="name">
-			</div>`,
+			<my-book-detail [book]="selectedbook">
+			</my-book-detail>`,
 	styles:[`
       .selected {
         background-color: #CFD8DC !important;
         color: white;
       }
-      .heroes {
+      .bookes {
         margin: 0 0 2em 0;
         list-style-type: none;
         padding: 0;
         width: 15em;
       }
-      .heroes li {
+      .bookes li {
         cursor: pointer;
         position: relative;
         left: 0;
@@ -40,20 +36,20 @@ export class Hero{
         height: 1.6em;
         border-radius: 4px;
       }
-      .heroes li.selected:hover {
+      .bookes li.selected:hover {
         background-color: #BBD8DC !important;
         color: white;
       }
-      .heroes li:hover {
+      .bookes li:hover {
         color: #607D8B;
         background-color: #DDD;
         left: .1em;
       }
-      .heroes .text {
+      .bookes .text {
         position: relative;
         top: -3px;
       }
-      .heroes .badge {
+      .bookes .badge {
         display: inline-block;
         font-size: small;
         color: white;
@@ -67,18 +63,19 @@ export class Hero{
         margin-right: .8em;
         border-radius: 4px 0 0 4px;
       }
-    `]		
+    `],
+	directives: [BookDetailComponent]	
 })
 export class AppComponent { 
-	title = 'Tour of Heroes';
-	public heroes = HEROES;
-	hero: Hero = {
-		id: 1;
-		name: 'Windstorm2';
-	};
+	title = 'Tour of bookes';
+	public bookes = BOOKS;
+	selectedbook: Book;
+	onSelect(book: Book) { 
+		this.selectedbook = book; 
+	}
 }
 
-var HEROES: Hero[] = [
+var BOOKS: Book[] = [
   { "id": 11, "name": "Mr. Nice" },
   { "id": 12, "name": "Narco" },
   { "id": 13, "name": "Bombasto" },
