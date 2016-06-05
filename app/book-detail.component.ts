@@ -1,20 +1,26 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Book } from './book';
+import { RouteParams } from '@angular/router-deprecated';
+import { BookService } from './book.service';
 
 @Component({
   selector: 'my-book-detail',
-  template: `
-  <div *ngIf="book">
-    <h2>{{book.name}} details!</h2>
-    <div><label>id: </label>{{book.id}}</div>
-    <div>
-      <label>name: </label>
-      <input [(ngModel)]="book.name" placeholder="name"/>
-    </div>
-  </div>
-`
+  templateUrl: 'app/book-detail.component.html',
+  styleUrls: ['app/book-detail.component.css']
 })
-export class BookDetailComponent {
-	@Input()
+export class BookDetailComponent implements OnInit {
 	book: Book;
+
+	constructor(
+		private bookService: BookService,
+		private routeParams: RouteParams) {
+	}
+	ngOnInit() {
+		let id = +this.routeParams.get('id');
+		this.bookService.getBook(id)
+		.then(book => this.book = book);
+	}
+	goBack() {
+		window.history.back();
+	}
 }
