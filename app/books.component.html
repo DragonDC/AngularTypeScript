@@ -3,11 +3,17 @@
   <li *ngFor="let book of books" [class.selected]="book === selectedBook"
   (click)="onSelect(book)">
 	<span class="badge">{{book.id}}</span> {{book.name}}
+	<button class="delete-button" (click)="delete(book, $event)">Delete</button>
   </li>
 </ul>
+
+<button (click)="addBook()">Add New Book</button>
+<div *ngIf="addingBook">
+  <my-book-detail (close)="close($event)"></my-book-detail>
+</div>
 <div *ngIf="selectedBook">
   <h2>
-	{{selectedBook.name | uppercase}} is my book
+    {{selectedBook.name | uppercase}} is my book
   </h2>
   <button (click)="gotoDetail()">View Details</button>
 </div>
